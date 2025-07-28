@@ -1,4 +1,4 @@
-FROM golang:1.24 as builder
+FROM golang:1.24 AS builder
 
 WORKDIR /workspace
 # ENV GOPROXY https://goproxy.cn
@@ -7,6 +7,8 @@ WORKDIR /workspace
 # # and so that source changes don't invalidate our downloaded layer
 #
 # # Copy the go source
+
+ENV GOPROXY=https://goproxy.cn,direct
 COPY go.mod go.mod
 COPY go.sum go.sum
 RUN go mod download
@@ -19,11 +21,20 @@ COPY tool/ tool/
 COPY config/assets out/config/assets
 COPY scripts/ scripts/
 COPY Makefile Makefile
+COPY etcd.tgz etcd.tgz
+COPY kafka.tgz kafka.tgz
+COPY minio.tgz minio.tgz
+COPY pulsar.tgz pulsar.tgz
+COPY pulsarv3.tgz pulsarv3.tgz
+COPY values.yaml values.yaml
+COPY tei.tgz tei.tgz
+
 RUN make docker-prepare
 #
 # # Use distroless as minimal base image to package the manager binary
 # # Refer to https://github.com/GoogleContainerTools/distroless for more details
 FROM alpine:3.21
+
 WORKDIR /
 COPY --from=builder /workspace/out/ /
 

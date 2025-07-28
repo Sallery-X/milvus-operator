@@ -116,12 +116,6 @@ out/config/assets/templates:
 
 docker-prepare: build-release out/config/assets/templates
 	mkdir -p ./out/config/assets/charts/
-	wget https://github.com/zilliztech/milvus-helm/raw/${MILVUS_HELM_VERSION}/charts/milvus/charts/etcd-6.3.3.tgz -O ./etcd.tgz
-	wget https://github.com/zilliztech/milvus-helm/raw/${MILVUS_HELM_VERSION}/charts/milvus/charts/minio-8.0.17.tgz -O ./minio.tgz
-	wget https://github.com/apache/pulsar-helm-chart/releases/download/pulsar-2.7.8/pulsar-2.7.8.tgz -O ./pulsar.tgz
-	wget https://github.com/zilliztech/milvus-helm/raw/${MILVUS_HELM_VERSION}/charts/milvus/charts/pulsar-3.3.0.tgz -O ./pulsarv3.tgz
-	wget https://github.com/zilliztech/milvus-helm/raw/${MILVUS_HELM_VERSION}/charts/milvus/charts/kafka-15.5.1.tgz -O ./kafka.tgz
-	wget https://github.com/zilliztech/milvus-helm/raw/${MILVUS_HELM_VERSION}/charts/milvus/charts/tei-1.6.0.tgz -O ./tei.tgz
 	tar -xf ./etcd.tgz -C ./out/config/assets/charts/
 	tar -xf ./minio.tgz -C ./out/config/assets/charts/
 	tar -xf ./pulsarv3.tgz -C ./out/config/assets/
@@ -129,7 +123,7 @@ docker-prepare: build-release out/config/assets/templates
 	tar -xf ./pulsar.tgz -C ./out/config/assets/charts/
 	tar -xf ./kafka.tgz -C ./out/config/assets/charts/
 	tar -xf ./tei.tgz -C ./out/config/assets/charts/
-	wget https://github.com/zilliztech/milvus-helm/raw/${MILVUS_HELM_VERSION}/charts/milvus/values.yaml -O ./out/config/assets/charts/values.yaml
+	cp ./values.yaml ./out/config/assets/charts/values.yaml
 	cp ./scripts/run.sh ./out/run.sh
 	cp ./scripts/run-helm.sh ./out/run-helm.sh
 	cp ./scripts/init.sh ./out/init.sh
